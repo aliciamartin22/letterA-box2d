@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM Physics Letters</title>
+
+<!-- Welcome to ZIM at https://zimjs.com - Code Creativity!              	        -->
+<!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS https://createjs.com -->
+<!-- Founded by Inventor Dan Zen - https://danzen.com - Canadian New Media Award Winner 	-->
+<!-- ZIM is free to use. You can donate to help improve ZIM at https://zimjs.com/donate 	-->
+
+<script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/zim_10.js"></script>
+<!-- use zimjs.com/distill for minified individual functions! -->
+
+<script src="https://d309knd7es5f10.cloudfront.net/Box2dWeb-2.1.a.3.min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/physics_2.0.js"></script>
+
+<script>
+
+// SCALING OPTIONS
+// scaling can have values as follows with full being the default
+// "fit"	sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+// "full"	sets stage to window size with no scaling
+// "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1024;
+var height = 768;
+var color = "#cae9f5"; // ZIM colors like green, blue, pink, faint, clear, etc. available globally
+var outerColor = dark; // any HTML colors like "violet", "#333", etc. fine to use
+
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+    var stage = frame.stage;
+    var stageW = frame.width;
+    var stageH = frame.height;
+
+    // see https://zimjs.com/learn.html for video and code tutorials
+    // see https://zimjs.com/docs.html for documentation
+    // see https://zimjs.com/bits.html for 64 Interactive Media techniques
+
+    // var physics = new Physics();
+	var physics = new Physics(0); // to not apply physics
+
+	var thickness = 30;
+	var angular = 5;
+	var linear = 5;
+
+// Letter Z
+	// var top = new Rectangle(200,thickness,green).centerReg().mov(0,-100).cur().addPhysics({linear:linear, angular:angular, maskBits:2});
+	// var top = new Rectangle(200,thickness, green).centerReg().mov(0,-100).cur().addPhysics({linear:linear, angular:angular});
+	// var bot = new Rectangle(200,thickness,orange).centerReg().mov(0,100).cur().addPhysics({linear:linear, angular:angular});
+	// var mid = new Rectangle(300,thickness,pink,null,null,[20,0,20,0]).centerReg().rot(-45).cur().addPhysics({linear:linear, angular:angular});
+
+	// physics.join(top, mid, new Point(top.x+top.width/2, top.y), null, 0, 45, "revolute"); //(obj1, obj2, point1, point2, minAngle, maxAngle, type)
+	// physics.join(bot, mid, new Point(bot.x-bot.width/2, bot.y), null, 0, 45, "revolute");
+
+// Letter A
+	var mid = new Rectangle(140, thickness,green, null, null, [10,10,10,10]).centerReg().mov(0,20).cur().addPhysics({linear:linear, angular:angular});
+	var top = new Rectangle(350, thickness, pink, null, null, [20,0,0,0]).centerReg().mov(72,0).rot(65).cur().addPhysics({linear:linear, angular:angular});
+	var bot = new Rectangle(350, thickness,orange, null, null, [0,0,0,20]).centerReg().mov(-72,0).rot(115).cur().addPhysics({linear:linear, angular:angular});
+
+	physics.join(top, bot, new Point(top.x, top.y), null, 0, 45, "revolute");
+	physics.join(bot, mid, new Point(bot.x-bot.width/2, bot.y), null, 0, 45, "revolute");
+	physics.join(top, mid, null, new Point(top.x-top.width/2, top.y), 0, 45, "revolute");
+
+	// ZIM interval
+	interval(30, function () {
+		// new Circle(20,["gold",red,orange,pink]).loc(100,100).addPhysics({restitution:.5}).impulse(rand(100,1000),rand(100,1000));
+		new Circle(rand(10,30),["lightskyblue",blue,"teal","gold"]).pos(0,0,true,true).addPhysics({restitution:.5}).cur().impulse(rand(100,1000),rand(100,1000));
+			},100);
+
+	// JS interval
+	// setInterval(function () {}, 50);
+
+	physics.remove(physics.borderRight);
+	new Rectangle(10, stageH/2-50,red).centerReg().pos(0,0,true).addPhysics(false);
+	new Rectangle(10, stageH/2-50,red).centerReg().pos(0,0,true,true).addPhysics(false);
+	physics.drag();
+
+    stage.update(); // this is needed to show any changes
+
+}); // end of ready
+
+</script>
+
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+</head>
+
+<body>
+<!-- canvas with id="myCanvas" is made by zim Frame -->
+</body>
+</html>
